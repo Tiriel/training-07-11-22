@@ -23,5 +23,18 @@ class MainController extends AbstractController
             'controller_name' => 'Contact',
         ]);
     }
+
+    public function decades()
+    {
+        $decades = [
+            '1970',
+            '1980',
+            '2000',
+        ];
+
+        return $this->render('fragments/_decades.html.twig', [
+            'decades' => $decades,
+        ]);
+    }
 }
 
