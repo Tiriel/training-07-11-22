@@ -15,13 +15,24 @@
     </head>
     <body>
         <header>
-            {{ include('fragments/_navbar.html.twig', {currentRoute: app.request.attributes.get('_route')}, with_context = false) }}
+            {% block header %}
+                {{ include('fragments/_navbar.html.twig', {currentRoute: app.request.attributes.get('_route')}, with_context = false) }}
+            {% endblock %}
         </header>
-        <main class="container mt-5">
-            {% block body %}{% endblock %}
-       </main>
-        <aside>
-            {{ render(controller('App\\Controller\\MainController::decades')) }}
-        </aside>
+        <main class="container-fluid mt-5">
+            <div class="row">
+                <aside class="col-1">
+                    {% block aside %}{% endblock %}
+                </aside>
+                <section class="col-10">
+                    {% block body %}{% endblock %}
+                </section>
+                <aside class="col-1">
+                    {% block decades %}
+                        {{ render(controller('App\\Controller\\MainController::decades')) }}
+                    {% endblock %}
+                </aside>
+            </div>
+        </main>
     </body>
 </html>
