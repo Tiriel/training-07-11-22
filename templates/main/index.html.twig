@@ -15,7 +15,7 @@
     <section>
         <h2 class="text-center">Latest movies:</h2>
         <div class="row row-cols-3">
-{#{% for movie in movies %}
+            {% for movie in movies %}
                 <div class="col">
                     <div class="card w-75">
                         <img src="{{ movie.poster }}" alt="{{ movie.poster }}">
@@ -27,7 +27,7 @@
                 </div>
             {% else %}
                 <p>No movies in database yet...</p>
-            {% endfor %}#}
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

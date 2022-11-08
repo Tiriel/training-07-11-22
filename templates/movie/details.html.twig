@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Movie : {{ movie.title }}{% endblock %}
+{% block title %}Movie : {{ movie is not null ? movie.title : 'Not found' }}{% endblock %}
 
 {% block body %}
 <div class="example-wrapper">
+    {% if movie is not null %}
     <h1>Movie : {{ movie.title }}</h1>
 
     <ul>
         <li>Released At : {{ movie.releasedAt|date('d M Y') }}</li>
-        <li>Genre : {{ movie.genre|join(', ') }}</li>
+{#        <li>Genre : {{ movie.genre|join(', ') }}</li>#}
     </ul>
+    {% else %}
+    <h1>Movie not found</h1>
+    {% endif %}
 </div>
 {% endblock %}
