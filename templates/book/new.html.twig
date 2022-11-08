@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'New Book' %}
+
+{% block body %}
+    <h1>New Book</h1>
+
+    <section class="container w-75">
+        {{ form_start(form) }}
+{#            {{ form_widget(form) }}#}
+            {{ form_row(form.title) }}
+            {{ form_row(form.isbn) }}
+            {{ form_row(form.author) }}
+            {{ form_row(form.releasedAt) }}
+            <div class="input-group">
+                {{ form_label(form.plot, 'Plot summary') }}
+                {{ form_widget(form.plot) }}
+                {{ form_errors(form.plot) }}
+            </div>
+            {{ form_row(form.is_robot, {'label': 'Are you a robot?'}) }}
+            <button type="submit" class="btn btn-primary">Send</button>
+        {{ form_end(form) }}
+    </section>
+{% endblock %}

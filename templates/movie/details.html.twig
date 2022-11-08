@@ -5,11 +5,14 @@
 {% block body %}
 <div class="example-wrapper">
     {% if movie is not null %}
+
     <h1>Movie : {{ movie.title }}</h1>
 
     <ul>
         <li>Released At : {{ movie.releasedAt|date('d M Y') }}</li>
-{#        <li>Genre : {{ movie.genre|join(', ') }}</li>#}
+{#        <li>Genre : {{ movie.genres|join(', ') }}</li>#}
+        <li>Genre : {{ movie.genres|map(genre => genre.name)|join(', ') }}</li>
+{#        <li>Genre : {{ movie.genres|reduce((carry, genre) => carry != '' ? carry ~ ', ' ~ genre.name : genre.name) }}</li>#}
     </ul>
     {% else %}
     <h1>Movie not found</h1>
