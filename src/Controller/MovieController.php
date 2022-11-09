@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Movie;
+use App\Consumer\OmdbApiConsumer;
+use App\Provider\MovieProvider;
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,14 @@ class MovieController extends AbstractController
     {
         return $this->render('movie/details.html.twig', [
             'movie' => $repository->find($id)
+        ]);
+    }
+
+    #[Route('/omdb/{title}', name: 'app_movie_omdb')]
+    public function omdb(string $title, MovieProvider $provider)
+    {
+        return $this->render('movie/details.html.twig', [
+            'movie' => $provider->getMovie(OmdbApiConsumer::MODE_TITLE, $title),
         ]);
     }
 }
