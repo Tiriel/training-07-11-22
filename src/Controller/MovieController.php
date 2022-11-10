@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Consumer\OmdbApiConsumer;
 use App\Provider\MovieProvider;
 use App\Repository\MovieRepository;
+use App\Security\Voter\MovieVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,12 +22,14 @@ class MovieController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_MODERATOR')]
     #[Route('/{id<\d+>}', name: 'app_movie_details')]
     public function details(int $id, MovieRepository $repository): Response
     {
+        $movie = $repository->find($id);
+        $this->denyAccessUnlessGranted(MovieVoter::VIEW, $movie);
+
         return $this->render('movie/details.html.twig', [
-            'movie' => $repository->find($id)
+            'movie' => $movie,
         ]);
     }
 
@@ -34,7 +37,7 @@ class MovieController extends AbstractController
     public function omdb(string $title, MovieProvider $provider)
     {
         $movie = $provider->getMovie(OmdbApiConsumer::MODE_TITLE, $title);
-        $this->denyAccessUnlessGranted('movie.view', $movie);
+        $this->denyAccessUnlessGranted(MovieVoter::VIEW, $movie);
 
         return $this->render('movie/details.html.twig', [
             'movie' => $movie,

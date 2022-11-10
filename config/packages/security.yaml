@@ -50,7 +50,8 @@ security:
     access_control:
 #        - { path: ^/login, roles: PUBLIC_ACCESS }
 #        - { path: ^/, roles: IS_AUTHENTICATED_FULLY, allow_if: "request.headers.get('X-Header-Foo') == 'toto' and subject.getTitle() == 'Star Wars'" }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin/(movie|book)/\d+/edit, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

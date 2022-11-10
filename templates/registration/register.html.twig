@@ -5,8 +5,10 @@
 {% block body %}
     <h1>Register</h1>
 
+    <section class="w-50 m-auto">
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.birthday) }}
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
@@ -14,4 +16,5 @@
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+   </section>
 {% endblock %}
