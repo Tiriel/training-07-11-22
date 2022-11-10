@@ -1,17 +1,40 @@
 security:
+#    enable_authenticator_manager: false
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    role_hierarchy:
+        ROLE_PROVIDER: ROLE_USER
+        ROLE_MODERATOR: ROLE_USER
+        ROLE_ADMIN:
+            - ROLE_MODERATOR
+            - ROLE_PROVIDER
+
     providers:
-        users_in_memory: { memory: null }
+        app_admin_users:
+            memory:
+                users:
+                    admin@admin.com: { password: '%env(string:ADMIN_PASSWORD)%', roles: ['ROLE_USER', 'ROLE_ADMIN'] }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+        app_all_users:
+            chain:
+                providers: ['app_admin_users', 'app_user_provider']
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_all_users
+            custom_authenticator: App\Security\AppLoginFormAuthenticator
+            logout:
+                path: app_logout
+                target: app_main_index
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -22,6 +45,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+#        - { path: ^/login, roles: PUBLIC_ACCESS }
+#        - { path: ^/, roles: IS_AUTHENTICATED_FULLY, allow_if: "request.headers.get('X-Header-Foo') == 'toto' and subject.getTitle() == 'Star Wars'" }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 

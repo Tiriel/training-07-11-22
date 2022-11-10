@@ -37,6 +37,9 @@ class BookController extends AbstractController
         $form->handleRequest($request);
 
         $errors = $validator->validate($book, null, ['Book']);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            //
+        }
 
         return $this->renderForm('book/new.html.twig', [
             'form' => $form,
