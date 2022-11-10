@@ -10,6 +10,9 @@ security:
         ROLE_ADMIN:
             - ROLE_MODERATOR
             - ROLE_PROVIDER
+    access_decision_manager:
+        allow_if_all_abstain: false
+        strategy: affirmative # consensus, priority, unanimous
 
     providers:
         app_admin_users:
