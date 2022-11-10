@@ -14,6 +14,7 @@ services:
         bind:
             string $confKey: 'foo'
             string $sfVersion: '%env(key:require:key:symfony:key:extra:json:file:resolve:COMPOSER_PATH)%'
+            bool $isMaintenance: '%env(bool:APP_MAINTENANCE)%'
 
     _instanceof:
         App\Notifier\Factory\IterableNotificationFactoryInterface:
